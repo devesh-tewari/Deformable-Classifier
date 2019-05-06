@@ -1,11 +1,13 @@
 import numpy as np
-import scipy.misc
-# the array is loaded into b
-a = np.load('train.p')
+import pandas as pd
 
-with open("annotate.txt","w") as f:
-    for i in range(len(a['features'])):
-        file_name = str(i)  + ".jpg"
-        scipy.misc.toimage(a['features'][i], cmin=0.0, cmax=...).save("train_images/"+file_name)
-        line = "train_images/" + file_name + ",2,2,30,30,"+str(a['labels'][i])+"\n"
-        f.write(line)
+metadata = pd.read_csv('gtsrb-german-traffic-sign/Train.csv')
+# print(metadata.head())
+
+f = open('annotate.txt', 'w')
+
+for index, row in metadata.iterrows():
+    line = 'gtsrb-german-traffic-sign/' + str(row['Path']) + ',' + str(row['Roi.X1']) + ',' + str(row['Roi.Y1']) + ',' + str(row['Roi.X2']) + ',' + str(row['Roi.Y2']) + ',' + str(row['ClassId']) + '\n'
+    f.write(line)
+
+f.close()
